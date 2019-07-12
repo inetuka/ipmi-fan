@@ -6,4 +6,5 @@ This script was created after discovering a non-reaction of the cooling system (
 (overheating, clock step-down, ...)
 
 Best regards
+
 Udo
