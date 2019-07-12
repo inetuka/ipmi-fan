@@ -34,13 +34,13 @@ MYLOCK=/var/run/ipmi-fan.lck
 log_message()
 {
 	timestamp=$(date +%F-%H-%M-%S)
-    echo "$timestamp $1"
+	echo "$timestamp $1"
 }
 
 get_system_temp()
 {
-    act_tmp=0
-    num_cores=${#cores[@]}
+	act_tmp=0
+	num_cores=${#cores[@]}
 
     for i in "${cores[@]}"
     do
