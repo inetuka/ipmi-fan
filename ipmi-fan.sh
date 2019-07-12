@@ -27,6 +27,7 @@ MYDOMAIN=example.com
 
 MYLOG=/var/log/ipmi-fan.log
 MYLOCK=/var/run/ipmi-fan.lck
+MYSENS=/tmp/core.sense
 
 #
 ## functions #################################################################################
@@ -39,8 +40,8 @@ log_message()
 
 get_system_temp()
 {
-	act_tmp=0
-	num_cores=${#cores[@]}
+    act_tmp=0
+    num_cores=${#cores[@]}
 
     for i in "${cores[@]}"
     do
@@ -68,7 +69,7 @@ alert_fan_rpm()
 {
     if [ $cnt_alert -eq 0 ]; then
 
-        mail -s "Temperature Alert $MYHOST ($1)" -a"From:$MYHOST \<$MYHOST@$MYDOMAIN\>" root < /tmp/temp.cores
+        mail -s "Temperature Alert $MYHOST ($1)" -a"From:$MYHOST \<$MYHOST@$MYDOMAIN\>" root < $MYSENS
         log_message "ERROR -- Temperature too high at 100% fan rpm. Sending alert."
 
     fi
@@ -136,10 +137,10 @@ sleep $MYLOOP
 while true
 do
 
-    sensors | grep Core > /tmp/temp.cores
+    sensors | grep Core > $MYSENS
 
     # schneide string bei +-zeichen, zweites element beginnt mit temp, schneide bei .-zeichen, erstes element ist temp
-    cores=( $(cut -d'+' -f2 /tmp/temp.cores | cut -d'.' -f1) )
+    cores=( $(cut -d'+' -f2 $MYSENS | cut -d'.' -f1) )
 
     get_system_temp
 
