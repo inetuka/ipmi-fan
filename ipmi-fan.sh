@@ -1,20 +1,20 @@
 #!/bin/bash
 
-# minimaldrehzahl in %, die nicht unterschritten werden kann,
-# auch wenn das system noch so kühl ist
+# minimum rpm in % that cannot be gone below, even if the system is ever so cool
 MIN_RPM=30
 
-# maximaldrehzal in %, die nicht überschritten werden kann
+# maximum rpm in % that never can be exceeded
 MAX_RPM=100
 
-# zieltemperatur des systems, die bei maximaler last nicht überschritten werden soll
-# wenn die temperatur trotz maximaler lüfterdrehzahl überschritten wird, wird alarm ausgelöst
+# target temp of the system that should not be exceeded even at maximum load
+# actually this builds a range with RAMP_TMP (AVG_TMP +- RAMP_TMP)
+# if the range is exceeded at max rpm an alarm is sent
 AVG_TMP=55
 
-# temperaturdifferenz, die eine reaktion der lüfterdrehzahl einleiten soll
+# temp diff that enforces an reaction in fan rpm
 RAMP_TMP=5
 
-# drehzahldifferenz in % pro reaktion
+# rpm diff in % per reaction
 RAMP_RPM=10
 
 # check temps every ... seconds
