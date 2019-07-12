@@ -1,5 +1,16 @@
 #!/bin/bash
 
+#	--------------------------------------------------------------------------
+#	name	ipmi-fan.sh
+#	usage	dell fan control mitigation
+#	owner	iNet uka
+#	date	190712
+#
+#	This file is public domain and provided as-is.
+#	There are NO guarantees. Use at your own risk.
+#
+#	--------------------------------------------------------------------------
+
 # minimum rpm in % that cannot be gone below, even if the system is ever so cool
 MIN_RPM=30
 
