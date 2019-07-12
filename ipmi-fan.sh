@@ -11,7 +11,7 @@ MAX_RPM=100
 # if the range is exceeded at max rpm an alarm is sent
 AVG_TMP=55
 
-# temp diff that enforces an reaction in fan rpm
+# temp diff that enforces a reaction in fan rpm
 RAMP_TMP=5
 
 # rpm diff in % per reaction
@@ -47,7 +47,8 @@ get_system_temp()
     do
         act_tmp=$(($act_tmp+$i))
     done
-
+    
+    # get the mean temp value from all cores
     act_tmp=$(($act_tmp/$num_cores))
 }
 
@@ -73,7 +74,9 @@ alert_fan_rpm()
         log_message "ERROR -- Temperature too high at 100% fan rpm. Sending alert."
 
     fi
-
+    
+    # only on first occasion and then after $MYLOOP rounds an alert is generated. if MYLOOP is set to 30
+    # the alert is repeated after 30x30 seconds (15min)
     cnt_alert=$(($cnt_alert+1)); if [ $cnt_alert -eq $MYLOOP ]; then cnt_alert=0; fi
 }
 
@@ -125,7 +128,7 @@ val_hex=0
 num_cores=0
 cnt_alert=0
 
-# lüftersteuerung manuell
+# set fan rpm control to manual
 ipmitool raw 0x30 0x30 0x01 0x00 >/dev/null 2>&1
 
 set_fan_rpm $MAX_RPM
@@ -139,28 +142,28 @@ do
 
     sensors | grep Core > $MYSENS
 
-    # schneide string bei +-zeichen, zweites element beginnt mit temp, schneide bei .-zeichen, erstes element ist temp
+    # cut string at +-sign, second element starts with temperature, cut at .-sign, first element is temperature
     cores=( $(cut -d'+' -f2 $MYSENS | cut -d'.' -f1) )
 
     get_system_temp
 
-    # nur wenn der temperaturunterschied überhaupt größer ist als RAMP_TMP, mach etwas
+    # only if temp diff is larger than RAMP_TMP do something
     delta_t=$(($act_tmp-$AVG_TMP))
     get_abs $delta_t
 
     if [ $RETVAL -ge $RAMP_TMP ]; then
 
-        # das system ist mindestens RAMP_TMP wärmer als soll
+        # the system is at least RAMP_TMP hotter than it should be
         if [ $delta_t -gt 0 ]; then
 
-            # wenn zu warm trotz max fan rpm
+            # if already max fan rpm
             if [ $act_rpm -eq $MAX_RPM ]; then
 
                 alert_fan_rpm $delta_t
 
             fi
 
-            # wenn noch nicht an der oberen grenze
+            # we are not at the upper border yet
             if [ $act_rpm -lt $MAX_RPM ]; then
 
                 set_fan_rpm $(($act_rpm+$RAMP_RPM))
@@ -170,10 +173,10 @@ do
 
         fi
 
-        # das system ist mindestens RAMP_TMP kühler als erwartet
+        # the system is at least RAMP_TMP cooler than expected
         if [ $delta_t -lt 0 ]; then
 
-            # wenn nicht schon an der unteren grenze
+            # if not already at the lower border
             if [ $act_rpm -gt $MIN_RPM ]; then
 
                 set_fan_rpm $(($act_rpm-$RAMP_RPM))
@@ -189,4 +192,3 @@ do
 done
 
 # eof
-
