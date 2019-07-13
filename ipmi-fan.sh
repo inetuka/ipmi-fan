@@ -54,9 +54,9 @@ get_system_temp()
     act_tmp=0
     num_cores=${#cores[@]}
 
-    for i in "${cores[@]}"
+    for val_dec in "${cores[@]}"
     do
-        act_tmp=$(($act_tmp+$i))
+        act_tmp=$(($act_tmp+$val_dec))
     done
     
     # get the mean temp value from all cores
@@ -99,7 +99,6 @@ dec_to_hex()
     if [ $1 -ne $val_dec ]; then
 
         log_message "ERROR -- Value conversion error, aborting."
-
         exit 1
 
     fi
