@@ -25,4 +25,5 @@ ipmitool -I open sensors
 check output of ipmitool for correct function
 
 Best regards
+
 Udo
