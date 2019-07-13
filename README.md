@@ -20,7 +20,7 @@ sensors
 ```
 check output of sensors for at least one line with core temp
 ```
-ipmitool -I open sensors
+ipmitool -I open sensor
 ```
 check output of ipmitool for correct function
 
