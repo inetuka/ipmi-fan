@@ -7,20 +7,20 @@ This script was created after discovering a non-reaction of the cooling system (
 
 Preparations:
 
-># modprobe ipmi_msghandler
-># modprobe ipmi_devintf
-># modprobe ipmi_si
-># lsmod | grep ipmi
+# modprobe ipmi_msghandler
+# modprobe ipmi_devintf
+# modprobe ipmi_si
+# lsmod | grep ipmi
 
 if success add modules to /etc/modules
 
-># apt-get install ipmitool lm-sensors
-># sensors-detect
-># sensors
+# apt-get install ipmitool lm-sensors
+# sensors-detect
+# sensors
 
 check output of sensors for at least one line with core temp
 
-># ipmitool -I open sensors
+# ipmitool -I open sensors
 
 check output of ipmitool for correct function
 
