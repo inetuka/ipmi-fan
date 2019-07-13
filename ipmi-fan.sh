@@ -116,10 +116,10 @@ get_abs()
 ## main ##########################################################################################
 #
 
-command -v bc 1>/dev/null 2>&1       || { echo >&2 "bc program required but not found, aborting."; exit 1; }
-command -v mail 1>/dev/null 2>&1     || { echo >&2 "mail program required but not found, aborting."; exit 1; }
-command -v sensors 1>/dev/null 2>&1  || { echo >&2 "sensors program required but not found, aborting."; exit 1; }
-command -v ipmitool 1>/dev/null 2>&1 || { echo >&2 "ipmitool program required but not found, aborting."; exit 1; }
+command -v bc >/dev/null 2>&1       || { echo "bc program required but not found, aborting."; exit 1; }
+command -v mail >/dev/null 2>&1     || { echo "mail program required but not found, aborting."; exit 1; }
+command -v sensors >/dev/null 2>&1  || { echo "sensors program required but not found, aborting."; exit 1; }
+command -v ipmitool >/dev/null 2>&1 || { echo "ipmitool program required but not found, aborting."; exit 1; }
 
 if [ -f "$MYLOCK" ]; then
 
