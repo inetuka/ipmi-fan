@@ -14,7 +14,7 @@ lsmod | grep ipmi
 ```
 if success add modules to /etc/modules
 ```
-apt-get install ipmitool lm-sensors
+apt-get install ipmitool lm-sensors bc
 sensors-detect
 sensors
 ```
